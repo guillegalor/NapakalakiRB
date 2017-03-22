@@ -27,13 +27,11 @@ module NapakalakiGame
       end
       combatLevel
     end
-    
-    #TODO Comprobar l>=0
     def incrementLevels(l)
-      @level = [@level + l, 10].min
+      @level = [@level + l, 10].min if l >= 0
     end  
     def decrementLevels(l)
-      @level = [@level - l, 1].max
+      @level = [@level - l, 1].max if l >= 0
     end
     def setPendingBadConsequence(b)
       @pendingBadConsequence = b
