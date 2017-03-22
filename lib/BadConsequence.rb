@@ -52,10 +52,10 @@ module NapakalakiGame
     end
     def to_s
       s = "\nTexto: #{@text} \nLevels: #{@levels} \nNum of Visible Treasures: #{@nVisibleTreasures} \nNum of Hidden Treasures: #{@nHiddenTreasures} \nSpecific Visible Treasures: "
-      s.concat(@specificVisibleTreasures.join(', '))
-      s.concat ("\nSpecific Hidden Treasures: ")
-      s.concat(@specificHiddenTreasures.join(', '))
-      s.concat("\nDeath: #{@death}")
+      s << @specificVisibleTreasures.join(', ')
+      s << "\nSpecific Hidden Treasures: "
+      s << @specificHiddenTreasures.join(', ')
+      s << "\nDeath: #{@death}"
 
     end
     private_class_method :new

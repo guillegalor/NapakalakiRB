@@ -10,12 +10,14 @@ require_relative 'BadConsequence'
 require_relative 'Dice'
 require_relative 'Player'
 require_relative 'CardDealer'
+require_relative 'Napakalaki'
 
 module NapakalakiGame
   class PruebaNapakalaki
-    dealer = CardDealer.instance
+    juego = Napakalaki.instance
+    juego.initPlayers(["Guille", "Johanna", "Antcc"])
     
-    dealer.stats
+    puts juego.nextPlayer, juego.nextPlayer
     
   end
 end

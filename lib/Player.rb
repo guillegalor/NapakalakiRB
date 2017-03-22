@@ -87,7 +87,7 @@ module NapakalakiGame
     def discardHiddenTreasure(t)
 
     end
-    def validState()
+    def validState
       @hiddenTreasures.length <= 4 && @pendingBadConsequence.isEmpty
     end
     def initTreasures
