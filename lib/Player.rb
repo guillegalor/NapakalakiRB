@@ -37,13 +37,30 @@ module NapakalakiGame
       @pendingBadConsequence = b
     end
     def applyPrize(m)
-
+      
     end
     def applyBadConsequence(m)
 
     end
     def canMakeTreasureVisible(t)
-      
+      hash = {:hands => 0, TreasureKind::HELMET => 0, TreasureKind::ARMOR => 0, TreasureKind::SHOE => 0}
+      @visibleTreasures.each do |i|
+        if i.type == TreasureKind::ONEHAND
+          hash[:hands] += 1
+        elsif i.type == TreasureKind::BOTHHANDS
+          hash[:hands] += 2
+        else
+          hash[i.type] += 1
+        end
+      end
+              
+      if t.type == TreasureKind::ONEHAND
+        hash[:hands] === (0..1)
+      elsif t.type == TreasureKind::BOTHHANDS
+        hash[:hands] == 0
+      else
+        hash[t.type] == 0
+      end
     end
     def howManyVisibleTreasures(tKind)
       n = 0
@@ -55,8 +72,9 @@ module NapakalakiGame
     def dieIfNoTreasures()
       @dead = true
     end
+    #TODO Preguntar si hay que sacar dicho tesoro de @hiddenTreasures
     def giveMeATreasure
-
+      @hiddenTreasures.sample
     end
     def canYouGiveMeATreasure
       !@hiddenTreasures.empty?
@@ -119,7 +137,5 @@ module NapakalakiGame
       s.concat(@hiddenTreasures.collect{|t| t.name}.join(', '))
       s.concat("\nPending Bad Consequence: #{@pendingBadConsequence} \nEnemy: #{@enemy} \nCan I Steal? #{@canISteal} \nDead: #{@dead}")
     end
-
-
   end
 end

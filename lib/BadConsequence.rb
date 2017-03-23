@@ -39,7 +39,7 @@ module NapakalakiGame
       "Text: #{@text} \nLevel: #{@levels} \nNum of visible treasures: #{@nVisibleTreasures} \nNum of hidden treasures: #{@nHiddenTreasures} \nSpecific visible treasures: #{@specificVisibleTreasures} \nSpecific hidden treasures: #{@specificHiddenTreasures}"
     end
     def substractVisibleTreasure(t)
-
+      
     end
     def substractHiddenTreasure(t)
 

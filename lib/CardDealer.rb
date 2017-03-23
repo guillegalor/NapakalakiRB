@@ -5,6 +5,11 @@
 # enconding: UTF-8
 
 require 'singleton'
+require_relative 'Prize'
+require_relative 'Monster'
+require_relative 'BadConsequence'
+require_relative 'Treasure'
+require_relative 'TreasureKind'
 
 module NapakalakiGame
   
@@ -253,10 +258,27 @@ module NapakalakiGame
 
     public 
     def nextTreasure
-
+      if @unusedTreasures.empty?
+        @usedTreasures.each do |t|
+          @unusedTreasures << t
+          @usedTreasures.delete(t)
+        end
+        shuffleTreasures
+      end
+      
+      @unusedTreasures.pop
+      
     end
     def nextMonster
-
+      if @unusedMonsters.empty?
+        @usedMonters.each do |t|
+          @unusedMonsters << t
+          @usedMonsters.delete(t)
+        end
+        shuffleMonsters
+      end
+      
+      @unusedTreasures.pop
     end
     def giveTreasureBack(t)
       @usedTreasures << t
