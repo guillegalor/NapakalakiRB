@@ -38,6 +38,7 @@ module NapakalakiGame
     def to_s
       "Text: #{@text} \nLevel: #{@levels} \nNum of visible treasures: #{@nVisibleTreasures} \nNum of hidden treasures: #{@nHiddenTreasures} \nSpecific visible treasures: #{@specificVisibleTreasures} \nSpecific hidden treasures: #{@specificHiddenTreasures}"
     end
+    # TODO Implementar ambos
     def substractVisibleTreasure(t)
       
     end

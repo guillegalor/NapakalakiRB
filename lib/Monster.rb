@@ -25,5 +25,8 @@ module NapakalakiGame
     def getTreasuresGained
       @prize.treasures
     end
+    def getCombatLevel
+      @level
+    end
   end
 end

@@ -286,8 +286,10 @@ module NapakalakiGame
     def giveMonsterBack(m)
       @usedMonsters << m
     end
+    # TODO Implementacion que no estoy seguro si nos la han pedido todavia o no 
     def initCards
-
+      initTreasureCardDeck
+      initMonsterCardDeck
     end
     def stats
       initMonsterCardDeck
