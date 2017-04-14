@@ -5,10 +5,6 @@
 module NapakalakiGame
   
   class Monster
-    attr_reader :name
-    attr_reader :level
-    attr_reader :badConsequence 
-
     def initialize(n, l, b, p)
       @name = n
       @level = l
@@ -28,5 +24,12 @@ module NapakalakiGame
     def getCombatLevel
       @level
     end
+    def getBadConsequence
+      @badConsequence
+    end
+    def getName
+      @name
+    end
+    
   end
 end

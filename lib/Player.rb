@@ -47,11 +47,27 @@ module NapakalakiGame
     end
     
     def applyPrize(m)
+      nLevels = m.getLevelsGained
+      incrementLevels nLevels
       
+      nTreasures = m.getTreasuresGained
+      if nTreasures > 0
+        dealer = CardDealer.instance
+        nTreasures.times do
+          treasure = dealer.nextTreasure
+          @hiddenTreasure << treasure
+        end
+      end
     end
     
     def applyBadConsequence(m)
-
+      badConsequence = m.getBadConsequence
+      
+      nLevels = badConsequence.getLevels
+      decrementLevels nLevels
+      
+      pendingBad = badConsequence.adjustToFitTreasureLists @visibleTreasures, @hiddenTreasures
+      setPendingBadConsequence pendingBad
     end
     
     #Funcion que comprueba si se puede añadir un tesoro a la lista de tesoros 
@@ -87,11 +103,6 @@ module NapakalakiGame
     
     def dieIfNoTreasures()
       @dead = true
-    end
-    
-    #TODO Preguntar si hay que sacar dicho tesoro de @hiddenTreasures
-    def giveMeATreasure
-      @hiddenTreasures.sample
     end
     
     def canYouGiveMeATreasure
@@ -179,15 +190,42 @@ module NapakalakiGame
     end
     
     def initTreasures
-
+      dealer = CardDealer.instance
+      dice = Dice.instance
+      
+      bringToLife
+      
+      treasure = dealer.nextTreasure
+      @hiddenTreasures << treasure
+      
+      number = dice.nextNumber
+      if number > 1
+        treasure = dealer.nextTreasure
+        @hiddenTreasures << treasure
+      end
+      
+      if number == 6
+        treasure = dealer.nextTreasure
+        @hiddenTreasures << treasure
+      end
     end
     
     def getLevels
       @level
     end
     
+    #TODO Comprobar que la variable treasure se puede usar fuera del if
     def stealTreasure
-
+      canI = canISteal
+      if canI
+        canYou = @enemy.canYouGiveMeATreasure
+        if canYou
+          treasure = @enemy.giveMeATreasure
+          @hiddenTreasures << treasure
+          haveStolen
+        end
+      end
+      treasure
     end
     
     def setEnemy(enemy)
@@ -199,7 +237,11 @@ module NapakalakiGame
     end
     
     def discardAllTreasures
-
+      cpyVisible = @visibleTreasures.dup
+      cpyHidden = @hiddenTreasures.dup
+      
+      cpyVisible.each { |t| discardVisibleTreasure t }
+      cpyHidden.each { |t| discardHiddenTreasure t }
     end
     
     def to_s
@@ -213,6 +255,14 @@ module NapakalakiGame
       s.concat("\nHidden Treasures: ")
       s.concat(@hiddenTreasures.collect{|t| t.name}.join(', '))
       s.concat("\nPending Bad Consequence: #{@pendingBadConsequence} \nEnemy: #{@enemy} \nCan I Steal? #{@canISteal} \nDead: #{@dead}")
+    end
+    
+    
+    protected
+     #TODO Preguntar si hay que sacar dicho tesoro de @hiddenTreasures y si no habria que hacer el metodo publico
+    def giveMeATreasure
+      treasure = @hiddenTreasures.sample
+      @hiddenTreasure.delete treasure
     end
   end
 end
