@@ -10,6 +10,11 @@ module NapakalakiGame
   class Player
     @@MAXLEVEL = 10
     
+    def self.MAXLEVEL
+      @@MAXLEVEL
+    end
+    
+    
     def initialize(name)
       @name = name
       @level = 1
@@ -55,7 +60,7 @@ module NapakalakiGame
         dealer = CardDealer.instance
         nTreasures.times do
           treasure = dealer.nextTreasure
-          @hiddenTreasure << treasure
+          @hiddenTreasures << treasure
         end
       end
     end
@@ -70,8 +75,7 @@ module NapakalakiGame
       setPendingBadConsequence pendingBad
     end
     
-    #Funcion que comprueba si se puede añadir un tesoro a la lista de tesoros 
-    #visibles
+    #Funcion que comprueba si se puede añadir un tesoro a la lista de tesoros visibles
     def canMakeTreasureVisible(t)
       hash = {:hands => 0, TreasureKind::HELMET => 0, TreasureKind::ARMOR => 0, TreasureKind::SHOE => 0}
       @visibleTreasures.each do |i|
@@ -85,7 +89,7 @@ module NapakalakiGame
       end
               
       if t.type == TreasureKind::ONEHAND
-        hash[:hands] === (0..1)
+        (0..1) === hash[:hands]
       elsif t.type == TreasureKind::BOTHHANDS
         hash[:hands] == 0
       else
@@ -137,7 +141,7 @@ module NapakalakiGame
         
         if number < 3
           enemyLevel = @enemy.getCombatLevel
-          #TODO: Cuadrado en rojo que no entiendo del diagrama
+          monsterLevel += enemyLevel
         end
       end
       
@@ -164,6 +168,7 @@ module NapakalakiGame
       end
     end
     
+    #TODO Quitar marcas
     def discardVisibleTreasure(t)
       @visibleTreasures.delete t
       
@@ -179,14 +184,14 @@ module NapakalakiGame
       @hiddenTreasures.delete t
       
       if (@pendingBadConsequence != nil && !@pendingBadConsequence.isEmpty)
-        @pendingBadConsequence.substractVisibleTreasure t 
+        @pendingBadConsequence.substractHiddenTreasure t 
       end
       
       dieIfNoTreasures
     end
     
     def validState
-      @hiddenTreasures.length <= 4 && @pendingBadConsequence.isEmpty
+      @hiddenTreasures.length <= 4 && (@pendingBadConsequence == nil || @pendingBadConsequence.isEmpty)
     end
     
     def initTreasures
@@ -245,7 +250,7 @@ module NapakalakiGame
     end
     
     def to_s
-      @name
+      "#{@name} \nLevel: #{@level} \nCombat level: #{getCombatLevel}"
     end
     
     #Definimos este metodo para no entrar en un bucle al mostrar el "enemy", que es otro player que tiene su enemy...

@@ -2,6 +2,8 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
+require_relative 'Player'
+
 module NapakalakiGame
   
   class BadConsequence
@@ -27,7 +29,7 @@ module NapakalakiGame
     end
     
     def isEmpty
-      (@nVisibleTreasures == 0) && (@nHiddenTreasure == 0) && @specificVisibleTreasures.empty? && @specificHiddenTreasures.empty?
+      (@nVisibleTreasures == 0) && (@nHiddenTreasures == 0) && @specificVisibleTreasures.empty? && @specificHiddenTreasures.empty?
     end
     
     def self.newLevelNumberOfTreasures (t, l, nVisible, nHidden)
@@ -39,20 +41,23 @@ module NapakalakiGame
     end
     
     def self.newDeath (t, death)
-      new(t, nil, nil, nil, nil, nil, death)
+      if death
+        new(t, Player.MAXLEVEL, @@MAXTREASURES, @@MAXTREASURES, nil, nil, death)
+      else
+        new(t, nil, nil, nil, nil, nil, death)
+      end
     end
     
     def to_s
       "Text: #{@text} \nLevel: #{@levels} \nNum of visible treasures: #{@nVisibleTreasures} \nNum of hidden treasures: #{@nHiddenTreasures} \nSpecific visible treasures: #{@specificVisibleTreasures} \nSpecific hidden treasures: #{@specificHiddenTreasures}"
     end
-    # TODO Implementar ambos
     
     def substractVisibleTreasure(t)
       if !isEmpty
         if !@specificVisibleTreasures.empty?
           @specificVisibleTreasures.delete t.type
         else
-          @nVisibleTreasures = [0, @nVisibleTreasures -1].min
+          @nVisibleTreasures = [0, @nVisibleTreasures -1].max
         end
       end
     end
@@ -62,7 +67,7 @@ module NapakalakiGame
         if !@specificHiddenTreasures.empty?
           @specificHiddenTreasures.delete t.type
         else
-          @nVisibleHidden = [0, @nVisibleHidden -1].min
+          @nHiddenTreasures = [0, @nHiddenTreasures -1].max
         end
       end
     end
@@ -74,11 +79,34 @@ module NapakalakiGame
         
         visibleTypes = v.collect { |t| t.type }
         hiddenTypes = h.collect { |t| t.type}
-        specificVisibleTreasures = @specificVisibleTreasures & visibleTypes
-        specificHiddenTreasures = @specificHiddenTreasures & hiddenTypes
+        specificVisibleTreasures = Array.new
+        cpySpecificVisibleTreasures = @specificVisibleTreasures.dup
+        specificHiddenTreasures = Array.new
+        cpySpecificHiddenTreasures = @specificHiddenTreasures.dup
         
-        badConsequence.new @text, @levels, nVisibleTreasures, nHiddenTreasures, specificVisibleTreasures, specificHiddenTreasures
+        visibleTypes.each do |t|
+          if cpySpecificVisibleTreasures.include?(t)
+            specificVisibleTreasures << t
+            cpySpecificVisibleTreasures.delete t
+          end
+        end
+        hiddenTypes.each do |t|
+          if cpySpecificHiddenTreasures.include?(t)
+            specificHiddenTreasures << t
+            cpySpecificHiddenTreasures.delete t
+          end
+        end
+        
+        if specificHiddenTreasures.empty? && specificVisibleTreasures.empty?
+          BadConsequence.newLevelNumberOfTreasures @text, @levels, nVisibleTreasures, nHiddenTreasures
+        else
+          BadConsequence.newLevelSpecificTreasures @text, @levels, specificVisibleTreasures, specificHiddenTreasures
+        end
+        
+      else
+        self
       end
+      
     end
     
     def getMaxTreasures

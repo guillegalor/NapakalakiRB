@@ -14,7 +14,7 @@ module NapakalakiGame
       end
 
       def to_s
-        "Tesoros ganados: #{@treasures} \nNiveles ganados: #{@levels}"
+        "\nTesoros ganados: #{@treasures} \nNiveles ganados: #{@levels}"
       end
   end
 end

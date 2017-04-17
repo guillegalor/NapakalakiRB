@@ -24,6 +24,7 @@ module NapakalakiGame
     end
 
     private
+    
     #TODO Solucionar tesoros 0, 4, y 15 (UTF-8)
     def initTreasureCardDeck
       #Treasure[0]
@@ -119,6 +120,7 @@ module NapakalakiGame
       #Treasure[30]
       @unusedTreasures << Treasure.new("Zapato deja-amigos", 1, TreasureKind::SHOE)
     end
+    
     def initMonsterCardDeck
       #[0]
       prize = Prize.new(2,1)
@@ -249,13 +251,16 @@ module NapakalakiGame
       badConsequence = BadConsequence.newLevelNumberOfTreasures("Pintalabios negro. Pierdes 2 niveles", 2, 0, 0)
       @unusedMonsters << Monster.new("Lolitagooth", 2, badConsequence, prize)
     end
+    
     def shuffleTreasures
       @unusedTreasures.shuffle!
     end
+    
     def shuffleMonsters
       @unusedMonsters.shuffle!
     end
 
+    
     public 
     def nextTreasure
       if @unusedTreasures.empty?
@@ -269,6 +274,7 @@ module NapakalakiGame
       @unusedTreasures.pop
       
     end
+    
     def nextMonster
       if @unusedMonsters.empty?
         @usedMonters.each do |t|
@@ -278,19 +284,24 @@ module NapakalakiGame
         shuffleMonsters
       end
       
-      @unusedTreasures.pop
+      @unusedMonsters.pop
     end
+    
     def giveTreasureBack(t)
       @usedTreasures << t
     end
+    
     def giveMonsterBack(m)
       @usedMonsters << m
     end
-    # TODO Implementacion que no estoy seguro si nos la han pedido todavia o no 
+    
     def initCards
       initTreasureCardDeck
       initMonsterCardDeck
+      shuffleTreasures
+      shuffleMonsters
     end
+    
     def stats
       initMonsterCardDeck
       

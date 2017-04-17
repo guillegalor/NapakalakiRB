@@ -3,6 +3,8 @@
 # and open the template in the editor.
 
 require 'singleton'
+require_relative 'CardDealer'
+require_relative 'Player'
 
 module NapakalakiGame
 
@@ -42,9 +44,10 @@ module NapakalakiGame
     
     def setEnemies
       @players.each do |t|
+        enemy = @players.sample
         loop do
-          enemy = @players.sample
           break if t != enemy
+          enemy = @players.sample
         end
         t.setEnemy(enemy)  
       end
@@ -52,12 +55,12 @@ module NapakalakiGame
 
     
     public
-    #TODO Preguntar si hay que poner combatResult = ...
+    
     def developCombat
       @currentPlayer.combat @currentMonster
     end
     
-    def discardVisibleTreasures(*treasures)
+    def discardVisibleTreasures(treasures)
       treasures.each do |t|
         treasure = t
         @currentPlayer.discardVisibleTreasure(treasure)
@@ -65,11 +68,15 @@ module NapakalakiGame
       end
     end
     
-    def discardHiddenTreasures(*treasures)
-
+    def discardHiddenTreasures(treasures)
+      treasures.each do |t|
+        treasure = t
+        @currentPlayer.discardHiddenTreasure(treasure)
+        @dealer.giveTreasureBack(treasure)
+      end
     end
     
-    def makeTreasuresVisible(*treasures)
+    def makeTreasuresVisible(treasures)
       treasures.each do |t|
         @currentPlayer.makeTreasureVisible t
       end
