@@ -147,7 +147,7 @@ module NapakalakiGame
       
       if myLevel > monsterLevel
         if @level >= @@MAXLEVEL
-          combatResult = 10
+          combatResult = CombatResult::WINGAME
         else
           combatResult = CombatResult::WIN
         end
