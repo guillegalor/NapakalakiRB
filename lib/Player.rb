@@ -32,14 +32,6 @@ module NapakalakiGame
       @dead = false
     end
     
-    def getCombatLevel
-      combatLevel = @level
-      @visibleTreasures.each do |t|
-        combatLevel += t.bonus
-      end
-      combatLevel
-    end
-    
     def incrementLevels (l)
       @level = [@level + l, 10].min if l >= 0
     end  
@@ -105,15 +97,15 @@ module NapakalakiGame
     def haveStolen
       @canISteal = false
     end
+    
+    def dieIfNoTreasures
+      @dead = true
+    end
 
     
     public
     def isDead
       @dead
-    end
-    
-    def dieIfNoTreasures
-      @dead = true
     end
     
     def getHiddenTreasures
@@ -176,7 +168,7 @@ module NapakalakiGame
       @hiddenTreasures.delete(t)
       
       if (@pendingBadConsequence != nil && !@pendingBadConsequence.isEmpty)
-        @pendingBadConsequence.substractHiddenTreasure t 
+        @pendingBadConsequence.substractHiddenTreasure(t)
       end
       
       dieIfNoTreasures
@@ -263,7 +255,16 @@ module NapakalakiGame
     
     def giveMeATreasure
       treasure = @hiddenTreasures.sample
-      @hiddenTreasures.delete(treasure)
+      discardHiddenTreasure(treasure)
+      treasure
+    end
+    
+    def getCombatLevel
+      combatLevel = @level
+      @visibleTreasures.each do |t|
+        combatLevel += t.bonus
+      end
+      combatLevel
     end
   end
 end

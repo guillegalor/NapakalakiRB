@@ -51,7 +51,9 @@ module NapakalakiGame
     def substractVisibleTreasure (t)
       if !isEmpty
         if !@specificVisibleTreasures.empty?
-          @specificVisibleTreasures.delete t.type
+          if @specificVisibleTreasures.include?(t.type)
+            @specificVisibleTreasures.delete_at(@specificVisibleTreasures.index(t.type))
+          end
         else
           @nVisibleTreasures = [0, @nVisibleTreasures -1].max
         end
@@ -61,7 +63,9 @@ module NapakalakiGame
     def substractHiddenTreasure (t)
       if !isEmpty
         if !@specificHiddenTreasures.empty?
-          @specificHiddenTreasures.delete t.type
+          if @specificHiddenTreasures.include?(t.type)
+            @specificHiddenTreasures.delete_at(@specificHiddenTreasures.index(t.type))
+          end
         else
           @nHiddenTreasures = [0, @nHiddenTreasures -1].max
         end
