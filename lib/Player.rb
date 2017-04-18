@@ -9,10 +9,10 @@ module NapakalakiGame
 
   class Player
     #TODO Pensar si usar la variable como instancia de clase o como variable de clase
-    @MAXLEVEL = 10
+    @@MAXLEVEL = 10
     
-    class << self
-      attr_reader :MAXLEVEL
+    def self.MAXLEVEL
+      @@MAXLEVEL
     end
     
     
@@ -54,7 +54,7 @@ module NapakalakiGame
     
     def applyPrize (m)
       nLevels = m.getLevelsGained
-      incrementLevels nLevels
+      incrementLevels(nLevels)
       
       nTreasures = m.getTreasuresGained
       if nTreasures > 0
@@ -70,24 +70,20 @@ module NapakalakiGame
       badConsequence = m.getBadConsequence
       
       nLevels = badConsequence.getLevels
-      decrementLevels nLevels
+      decrementLevels(nLevels)
       
-      pendingBad = badConsequence.adjustToFitTreasureLists @visibleTreasures, @hiddenTreasures
-      setPendingBadConsequence pendingBad
+      pendingBad = badConsequence.adjustToFitTreasureLists(@visibleTreasures, @hiddenTreasures)
+      setPendingBadConsequence(pendingBad)
     end
     
     #Funcion que comprueba si se puede añadir un tesoro a la lista de tesoros visibles
     def canMakeTreasureVisible (t)
-      hash = {:hands => 0, TreasureKind::HELMET => 0, TreasureKind::ARMOR => 0, TreasureKind::SHOE => 0}
-      @visibleTreasures.each do |i|
-        if i.type == TreasureKind::ONEHAND
-          hash[:hands] += 1
-        elsif i.type == TreasureKind::BOTHHANDS
-          hash[:hands] += 2
-        else
-          hash[i.type] += 1
-        end
-      end
+      hash = {
+        :hands => howManyVisibleTreasures(TreasureKind::ONEHAND) + 2*howManyVisibleTreasures(TreasureKind::BOTHHANDS), 
+        TreasureKind::HELMET => howManyVisibleTreasures(TreasureKind::HELMET), 
+        TreasureKind::ARMOR => howManyVisibleTreasures(TreasureKind::ARMOR), 
+        TreasureKind::SHOE => howManyVisibleTreasures(TreasureKind::SHOE) 
+      }
               
       if t.type == TreasureKind::ONEHAND
         (0..1) === hash[:hands]
@@ -106,14 +102,6 @@ module NapakalakiGame
       n
     end
     
-    def dieIfNoTreasures
-      @dead = true
-    end
-    
-    def canYouGiveMeATreasure
-      !@hiddenTreasures.empty?
-    end
-    
     def haveStolen
       @canISteal = false
     end
@@ -122,6 +110,10 @@ module NapakalakiGame
     public
     def isDead
       @dead
+    end
+    
+    def dieIfNoTreasures
+      @dead = true
     end
     
     def getHiddenTreasures
@@ -136,7 +128,7 @@ module NapakalakiGame
       myLevel = getCombatLevel
       monsterLevel = m.getCombatLevel
       
-      if !@canISteal
+      if !canISteal
         dice = Dice.instance
         number = dice.nextNumber
         
@@ -152,10 +144,10 @@ module NapakalakiGame
         else
           combatResult = CombatResult::WIN
         end
-        applyPrize m
+        applyPrize(m)
       else
         combatResult = CombatResult::LOSE
-        applyBadConsequence m
+        applyBadConsequence(m)
       end
       
       combatResult
@@ -165,7 +157,7 @@ module NapakalakiGame
       canI = canMakeTreasureVisible(t)
       if canI
         @visibleTreasures << t
-        @hiddenTreasures.delete t
+        @hiddenTreasures.delete(t)
       end
     end
     
@@ -265,9 +257,13 @@ module NapakalakiGame
     
     protected
      #TODO Preguntar si hay que sacar dicho tesoro de @hiddenTreasures y si no habria que hacer el metodo publico
+    def canYouGiveMeATreasure
+      !@hiddenTreasures.empty?
+    end
+    
     def giveMeATreasure
       treasure = @hiddenTreasures.sample
-      @hiddenTreasure.delete(treasure)
+      @hiddenTreasures.delete(treasure)
     end
   end
 end

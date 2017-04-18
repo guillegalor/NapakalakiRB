@@ -20,13 +20,13 @@ module NapakalakiGame
     
     
     private
-    def initPlayers(names)
+    def initPlayers (names)
       names.each{|n| @players << Player.new(n)}
     end
     
     def nextPlayer
       if @currentPlayer == nil
-        @currentPlayer = @players.sample 
+        @players.sample 
       else
         index = @players.index(@currentPlayer)
         if index == @players.length-1
@@ -34,7 +34,7 @@ module NapakalakiGame
         else
           index += 1
         end
-        @currentPlayer = @players[index]
+        @players[index]
       end
     end
     
@@ -57,7 +57,9 @@ module NapakalakiGame
     public
     
     def developCombat
-      @currentPlayer.combat(@currentMonster)
+      combatResult = @currentPlayer.combat(@currentMonster)
+      @dealer.giveMonsterBack(@currentMonster)
+      combatResult
     end
     
     def discardVisibleTreasures (treasures)
@@ -83,7 +85,7 @@ module NapakalakiGame
     end
     
     def initGame (players)
-      initPlayers players
+      initPlayers(players)
       setEnemies
       @dealer.initCards
       nextTurn

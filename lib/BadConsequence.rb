@@ -13,7 +13,7 @@ module NapakalakiGame
     attr_reader :specificVisibleTreasures
     attr_reader :specificHiddenTreasures
 
-    def initialize(text, someLevels, someVisibleTreasures, someHiddenTreasures, someSpecificVisibleTreasures, someSpecificHiddenTreasures, death)
+    def initialize (text, someLevels, someVisibleTreasures, someHiddenTreasures, someSpecificVisibleTreasures, someSpecificHiddenTreasures, death)
       @text = text
       @levels = someLevels
       @nVisibleTreasures = someVisibleTreasures.to_i
@@ -83,13 +83,13 @@ module NapakalakiGame
         visibleTypes.each do |t|
           if cpySpecificVisibleTreasures.include?(t)
             specificVisibleTreasures << t
-            cpySpecificVisibleTreasures.delete t
+            cpySpecificVisibleTreasures.delete_at(cpySpecificVisibleTreasures.index(t).to_i)
           end
         end
         hiddenTypes.each do |t|
           if cpySpecificHiddenTreasures.include?(t)
             specificHiddenTreasures << t
-            cpySpecificHiddenTreasures.delete t
+            cpySpecificHiddenTreasures.delete_at(cpySpecificVisibleTreasures.index(t).to_i)
           end
         end
         
@@ -100,7 +100,7 @@ module NapakalakiGame
         end
         
       else
-        self
+        self.dup
       end
       
     end
