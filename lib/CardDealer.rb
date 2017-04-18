@@ -287,11 +287,11 @@ module NapakalakiGame
       @unusedMonsters.pop
     end
     
-    def giveTreasureBack(t)
+    def giveTreasureBack (t)
       @usedTreasures << t
     end
     
-    def giveMonsterBack(m)
+    def giveMonsterBack (m)
       @usedMonsters << m
     end
     

@@ -5,7 +5,7 @@
 module NapakalakiGame
   
   class Monster
-    def initialize(n, l, b, p)
+    def initialize (n, l, b, p)
       @name = n
       @level = l
       @prize = p
@@ -15,21 +15,25 @@ module NapakalakiGame
     def to_s
       "Name: #{@name} \nLevel: #{@level} \nPrize: #{@prize} \nBad Consequence #{@badConsequence}"
     end
+    
     def getLevelsGained
       @prize.levels
     end
+    
     def getTreasuresGained
       @prize.treasures
     end
+    
     def getCombatLevel
       @level
     end
+    
     def getBadConsequence
       @badConsequence
     end
+    
     def getName
       @name
     end
-    
   end
 end

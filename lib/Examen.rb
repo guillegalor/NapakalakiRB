@@ -20,6 +20,7 @@ module Test
       def contabilizar
         @@contador += 1
       end
+      
       def getContador
         @@contador
       end

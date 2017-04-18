@@ -57,10 +57,10 @@ module NapakalakiGame
     public
     
     def developCombat
-      @currentPlayer.combat @currentMonster
+      @currentPlayer.combat(@currentMonster)
     end
     
-    def discardVisibleTreasures(treasures)
+    def discardVisibleTreasures (treasures)
       treasures.each do |t|
         treasure = t
         @currentPlayer.discardVisibleTreasure(treasure)
@@ -68,7 +68,7 @@ module NapakalakiGame
       end
     end
     
-    def discardHiddenTreasures(treasures)
+    def discardHiddenTreasures (treasures)
       treasures.each do |t|
         treasure = t
         @currentPlayer.discardHiddenTreasure(treasure)
@@ -76,13 +76,13 @@ module NapakalakiGame
       end
     end
     
-    def makeTreasuresVisible(treasures)
+    def makeTreasuresVisible (treasures)
       treasures.each do |t|
-        @currentPlayer.makeTreasureVisible t
+        @currentPlayer.makeTreasureVisible(t)
       end
     end
     
-    def initGame(players)
+    def initGame (players)
       initPlayers players
       setEnemies
       @dealer.initCards
@@ -113,7 +113,7 @@ module NapakalakiGame
       stateOK
     end
     
-    def endOfGame(result)
+    def endOfGame (result)
       result == CombatResult::WINGAME
     end
   end

@@ -8,14 +8,15 @@ require_relative 'CombatResult'
 module NapakalakiGame
 
   class Player
-    @@MAXLEVEL = 10
+    #TODO Pensar si usar la variable como instancia de clase o como variable de clase
+    @MAXLEVEL = 10
     
-    def self.MAXLEVEL
-      @@MAXLEVEL
+    class << self
+      attr_reader :MAXLEVEL
     end
     
     
-    def initialize(name)
+    def initialize (name)
       @name = name
       @level = 1
       @dead = true
@@ -27,11 +28,11 @@ module NapakalakiGame
     end
 
     private 
-    def bringToLife()
+    def bringToLife
       @dead = false
     end
     
-    def getCombatLevel()
+    def getCombatLevel
       combatLevel = @level
       @visibleTreasures.each do |t|
         combatLevel += t.bonus
@@ -39,19 +40,19 @@ module NapakalakiGame
       combatLevel
     end
     
-    def incrementLevels(l)
+    def incrementLevels (l)
       @level = [@level + l, 10].min if l >= 0
     end  
     
-    def decrementLevels(l)
+    def decrementLevels (l)
       @level = [@level - l, 1].max if l >= 0
     end
     
-    def setPendingBadConsequence(b)
+    def setPendingBadConsequence (b)
       @pendingBadConsequence = b
     end
     
-    def applyPrize(m)
+    def applyPrize (m)
       nLevels = m.getLevelsGained
       incrementLevels nLevels
       
@@ -65,7 +66,7 @@ module NapakalakiGame
       end
     end
     
-    def applyBadConsequence(m)
+    def applyBadConsequence (m)
       badConsequence = m.getBadConsequence
       
       nLevels = badConsequence.getLevels
@@ -76,7 +77,7 @@ module NapakalakiGame
     end
     
     #Funcion que comprueba si se puede añadir un tesoro a la lista de tesoros visibles
-    def canMakeTreasureVisible(t)
+    def canMakeTreasureVisible (t)
       hash = {:hands => 0, TreasureKind::HELMET => 0, TreasureKind::ARMOR => 0, TreasureKind::SHOE => 0}
       @visibleTreasures.each do |i|
         if i.type == TreasureKind::ONEHAND
@@ -97,15 +98,15 @@ module NapakalakiGame
       end
     end
     
-    def howManyVisibleTreasures(tKind)
+    def howManyVisibleTreasures (tKind)
       n = 0
       @visibleTreasures.each do |t|
-        n += 1 if t.type() == tKind  
+        n += 1 if t.type == tKind  
       end
       n
     end
     
-    def dieIfNoTreasures()
+    def dieIfNoTreasures
       @dead = true
     end
     
@@ -119,7 +120,7 @@ module NapakalakiGame
 
     
     public
-    def isDead()
+    def isDead
       @dead
     end
     
@@ -131,7 +132,7 @@ module NapakalakiGame
       @visibleTreasures
     end
     
-    def combat(m)
+    def combat (m)
       myLevel = getCombatLevel
       monsterLevel = m.getCombatLevel
       
@@ -160,28 +161,27 @@ module NapakalakiGame
       combatResult
     end
     
-    def makeTreasureVisible(t)
-      canI = canMakeTreasureVisible t
+    def makeTreasureVisible (t)
+      canI = canMakeTreasureVisible(t)
       if canI
         @visibleTreasures << t
         @hiddenTreasures.delete t
       end
     end
     
-    #TODO Quitar marcas
-    def discardVisibleTreasure(t)
-      @visibleTreasures.delete t
+    def discardVisibleTreasure (t)
+      @visibleTreasures.delete(t)
       
       if (@pendingBadConsequence != nil && !@pendingBadConsequence.isEmpty)
-        @pendingBadConsequence.substractVisibleTreasure t 
+        @pendingBadConsequence.substractVisibleTreasure(t) 
       end
       
       dieIfNoTreasures
       
     end
     
-    def discardHiddenTreasure(t)
-      @hiddenTreasures.delete t
+    def discardHiddenTreasure (t)
+      @hiddenTreasures.delete(t)
       
       if (@pendingBadConsequence != nil && !@pendingBadConsequence.isEmpty)
         @pendingBadConsequence.substractHiddenTreasure t 
@@ -233,7 +233,7 @@ module NapakalakiGame
       treasure
     end
     
-    def setEnemy(enemy)
+    def setEnemy (enemy)
       @enemy = enemy
     end
     
@@ -267,7 +267,7 @@ module NapakalakiGame
      #TODO Preguntar si hay que sacar dicho tesoro de @hiddenTreasures y si no habria que hacer el metodo publico
     def giveMeATreasure
       treasure = @hiddenTreasures.sample
-      @hiddenTreasure.delete treasure
+      @hiddenTreasure.delete(treasure)
     end
   end
 end

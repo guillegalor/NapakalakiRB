@@ -48,11 +48,7 @@ module NapakalakiGame
       end
     end
     
-    def to_s
-      "Text: #{@text} \nLevel: #{@levels} \nNum of visible treasures: #{@nVisibleTreasures} \nNum of hidden treasures: #{@nHiddenTreasures} \nSpecific visible treasures: #{@specificVisibleTreasures} \nSpecific hidden treasures: #{@specificHiddenTreasures}"
-    end
-    
-    def substractVisibleTreasure(t)
+    def substractVisibleTreasure (t)
       if !isEmpty
         if !@specificVisibleTreasures.empty?
           @specificVisibleTreasures.delete t.type
@@ -62,7 +58,7 @@ module NapakalakiGame
       end
     end
       
-    def substractHiddenTreasure(t)
+    def substractHiddenTreasure (t)
       if !isEmpty
         if !@specificHiddenTreasures.empty?
           @specificHiddenTreasures.delete t.type
@@ -72,7 +68,7 @@ module NapakalakiGame
       end
     end
     
-    def adjustToFitTreasureLists(v, h)
+    def adjustToFitTreasureLists (v, h)
       if !isEmpty
         nVisibleTreasures = [@nVisibleTreasures, v.size].min
         nHiddenTreasures = [@nHiddenTreasures, h.size].min
