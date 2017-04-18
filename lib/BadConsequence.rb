@@ -3,7 +3,6 @@
 # and open the template in the editor.
 
 require_relative 'Player'
-#TODO Borrar este comentario
 
 module NapakalakiGame
   
