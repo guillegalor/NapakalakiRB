@@ -9,7 +9,7 @@ module NapakalakiGame
 
   class Player
     #TODO Pensar si usar la variable como instancia de clase o como variable de clase
-    @@MAXLEVEL = 10
+    @@MAXLEVEL = 3
     
     def self.MAXLEVEL
       @@MAXLEVEL
@@ -131,15 +131,15 @@ module NapakalakiGame
       end
       
       if myLevel > monsterLevel
+        applyPrize(m)
         if @level >= @@MAXLEVEL
           combatResult = CombatResult::WINGAME
         else
           combatResult = CombatResult::WIN
         end
-        applyPrize(m)
       else
-        combatResult = CombatResult::LOSE
         applyBadConsequence(m)
+        combatResult = CombatResult::LOSE
       end
       
       combatResult
