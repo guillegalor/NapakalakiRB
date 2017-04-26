@@ -26,48 +26,21 @@ module NapakalakiGame
       @hiddenTreasures = Array.new
     end
     
-    def cpy (p)
-      new(p.name)
+    private 
+    #TODO Preguntar si hay que hacerlo así o no
+    
+    def bringToLife
+      @dead = false
+    end
+    
+    def cpy(p)
+      @name = p.name
       @level = p.level
       @dead = p.dead
       @pendingBadConsequence = p.pendingBadConsequence
       @enemy = p.enemy
       @visibleTreasures = p.visibleTreasures
       @hiddenTreasures = p.hiddenTreasures
-    end
-
-    private 
-    #TODO Preguntar si hay que hacerlo así o no
-    def name
-      @name
-    end
-    
-    def level
-      @level
-    end
-    
-    def dead
-      @dead
-    end
-    
-    def pendingBadConsequence
-      @pendingBadConsequence
-    end
-    
-    def enemy
-      @enemy
-    end
-    
-    def visibleTreasures
-      @visibleTreasures
-    end
-    
-    def hiddenTreasures
-      @hiddenTreasures
-    end
-    
-    def bringToLife
-      @dead = false
     end
     
     def incrementLevels (l)
@@ -142,6 +115,10 @@ module NapakalakiGame
 
     
     public
+    def enemy
+      @enemy
+    end
+    
     def isDead
       @dead
     end
@@ -156,7 +133,7 @@ module NapakalakiGame
     
     def combat (m)
       myLevel = getCombatLevel
-      monsterLevel = m.getCombatLevel
+      monsterLevel = getOponentLevel(m)
       
       if !canISteal
         dice = Dice.instance
@@ -177,7 +154,11 @@ module NapakalakiGame
         end
       else
         applyBadConsequence(m)
-        combatResult = CombatResult::LOSE
+        if shouldConvert
+          combatResult = CombatResult::LOSEANDCONVERT
+        else
+          combatResult = CombatResult::LOSE
+        end
       end
       
       combatResult
@@ -312,6 +293,30 @@ module NapakalakiGame
     
     def shouldConvert
       Dice.instance.nextNumber == 6
+    end
+    
+    def name
+      @name
+    end
+    
+    def level
+      @level
+    end
+    
+    def dead
+      @dead
+    end
+    
+    def pendingBadConsequence
+      @pendingBadConsequence
+    end
+    
+    def visibleTreasures
+      @visibleTreasures
+    end
+    
+    def hiddenTreasures
+      @hiddenTreasures
     end
   end
 end

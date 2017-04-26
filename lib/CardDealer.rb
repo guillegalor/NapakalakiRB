@@ -282,6 +282,10 @@ module NapakalakiGame
     def shuffleMonsters
       @unusedMonsters.shuffle!
     end
+    
+    def shuffleCultist
+      @unusedCultist.shuffle!
+    end
 
     
     public 
@@ -310,6 +314,10 @@ module NapakalakiGame
       @unusedMonsters.pop
     end
     
+    def nextCultist
+      @unusedCultist.pop
+    end
+    
     def giveTreasureBack (t)
       @usedTreasures << t
     end
@@ -321,8 +329,10 @@ module NapakalakiGame
     def initCards
       initTreasureCardDeck
       initMonsterCardDeck
+      initCultistCardDeck
       shuffleTreasures
       shuffleMonsters
+      shuffleCultist
     end
     
     def stats

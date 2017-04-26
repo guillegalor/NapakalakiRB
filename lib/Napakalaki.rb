@@ -5,6 +5,7 @@
 require 'singleton'
 require_relative 'CardDealer'
 require_relative 'Player'
+require_relative 'CultistPlayer'
 
 module NapakalakiGame
 
@@ -59,6 +60,20 @@ module NapakalakiGame
     def developCombat
       combatResult = @currentPlayer.combat(@currentMonster)
       @dealer.giveMonsterBack(@currentMonster)
+      
+      if combatResult == CombatResult::LOSEANDCONVERT
+        cultist = CultistPlayer.new(@currentPlayer, @dealer.nextCultist)
+        
+        @players[@players.index(@currentPlayer)] = cultist
+        @players.each do |p|
+          if @currentPlayer == p.enemy
+            p.setEnemy(cultist)
+          end
+        end
+        @currentPlayer = cultist
+        
+      end
+      
       combatResult
     end
     
