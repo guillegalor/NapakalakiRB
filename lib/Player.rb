@@ -253,16 +253,11 @@ module NapakalakiGame
     end
     
     def to_s
-      "#{@name} \nLevel: #{@level} \nCombat level: #{getCombatLevel}"
-    end
-    
-    #Definimos este metodo para no entrar en un bucle al mostrar el "enemy", que es otro player que tiene su enemy...
-    def getState
-      s = "Name: #{@name} \nLevel: #{@level} \nVisible Treasures: "
+      s = "\nName: #{@name} \nLevel: #{@level} \nVisible Treasures: "
       s.concat(@visibleTreasures.collect{|t| t.name}.join(', '))
       s.concat("\nHidden Treasures: ")
       s.concat(@hiddenTreasures.collect{|t| t.name}.join(', '))
-      s.concat("\nPending Bad Consequence: #{@pendingBadConsequence} \nEnemy: #{@enemy} \nCan I Steal? #{@canISteal} \nDead: #{@dead}")
+      s.concat("\nPending Bad Consequence: #{@pendingBadConsequence} \nEnemy: #{@enemy.name} \nCan I Steal? #{@canISteal} \nDead: #{@dead}")
     end
     
     

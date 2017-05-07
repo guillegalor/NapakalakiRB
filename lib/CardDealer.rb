@@ -10,6 +10,7 @@ require_relative 'Monster'
 require_relative 'BadConsequence'
 require_relative 'Treasure'
 require_relative 'TreasureKind'
+require_relative 'Cultist'
 
 module NapakalakiGame
   

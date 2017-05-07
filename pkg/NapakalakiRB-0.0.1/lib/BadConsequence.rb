@@ -98,13 +98,13 @@ module NapakalakiGame
         end
         
         if specificHiddenTreasures.empty? && specificVisibleTreasures.empty?
-          BadConsequence.newLevelNumberOfTreasures @text, @levels, nVisibleTreasures, nHiddenTreasures
+          BadConsequence.newLevelNumberOfTreasures(@text, @levels, nVisibleTreasures, nHiddenTreasures)
         else
-          BadConsequence.newLevelSpecificTreasures @text, @levels, specificVisibleTreasures, specificHiddenTreasures
+          BadConsequence.newLevelSpecificTreasures(@text, @levels, specificVisibleTreasures, specificHiddenTreasures)
         end
         
       else
-        self.dup
+        BadConsequence.newLevelNumberOfTreasures(@text, @levels, 0, 0)
       end
       
     end
