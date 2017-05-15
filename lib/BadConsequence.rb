@@ -8,6 +8,7 @@ module NapakalakiGame
   
   class BadConsequence
     @@MAXTREASURES = 10
+=begin
     attr_reader :nVisibleTreasures
     attr_reader :nHiddenTreasures
     attr_reader :specificVisibleTreasures
@@ -22,24 +23,35 @@ module NapakalakiGame
       @specificHiddenTreasures = someSpecificHiddenTreasures.to_a
       @death = death
     end
+=end
+    
+    def initialize (text, someLevels)
+      @text = text
+      @levels = someLevels
+    end
 
     public
     def getLevels
       @levels
     end
     
+    def getMaxTreasures
+      @@MAXTREASURES
+    end
+ 
+=begin
     def isEmpty
       (@nVisibleTreasures == 0) && (@nHiddenTreasures == 0) && @specificVisibleTreasures.empty? && @specificHiddenTreasures.empty?
     end
-    
+
     def self.newLevelNumberOfTreasures (t, l, nVisible, nHidden)
       new(t, l, nVisible, nHidden, nil, nil, false)
     end
-    
+   
     def self.newLevelSpecificTreasures (t, l, v, h)
       new(t, l, nil, nil, v, h, false)
     end
-    
+  
     def self.newDeath (t, death)
       if death
         new(t, Player.MAXLEVEL, @@MAXTREASURES, @@MAXTREASURES, nil, nil, death)
@@ -47,6 +59,7 @@ module NapakalakiGame
         new(t, nil, nil, nil, nil, nil, death)
       end
     end
+
     
     def substractVisibleTreasure (t)
       if !isEmpty
@@ -109,10 +122,6 @@ module NapakalakiGame
       
     end
     
-    def getMaxTreasures
-      @@MAXTREASURES
-    end
-    
     def to_s
       s = "\nTexto: #{@text} \nLevels: #{@levels} \nNum of Visible Treasures: #{@nVisibleTreasures} \nNum of Hidden Treasures: #{@nHiddenTreasures} \nSpecific Visible Treasures: "
       s << @specificVisibleTreasures.join(', ')
@@ -121,7 +130,8 @@ module NapakalakiGame
       s << "\nDeath: #{@death}"
 
     end
-    private_class_method :new
+=end
+    
     
   end
 end

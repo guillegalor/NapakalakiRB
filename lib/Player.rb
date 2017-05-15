@@ -37,6 +37,7 @@ module NapakalakiGame
       @name = p.name
       @level = p.level
       @dead = p.dead
+      @canISteal = p.canISteal
       @pendingBadConsequence = p.pendingBadConsequence
       @enemy = p.enemy
       @visibleTreasures = p.visibleTreasures

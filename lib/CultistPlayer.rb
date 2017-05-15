@@ -7,16 +7,20 @@ module NapakalakiGame
     @@totalCultistPlayers = 0
     
     def initialize(p, c)
+      @@totalCultistPlayer += 1
       cpy(p)
       @myCultistCard = c
     end
     
         
     protected
+    
+    #TODO Revisar private
     def canYouGiveMeATreasure
       !@visibleTreasures.empty?
     end
     
+    #TODO Revisar private
     def giveMeATreasure
       treasure = @visibleTreasures.sample
       discardVisibleTreasure(treasure)
@@ -28,7 +32,7 @@ module NapakalakiGame
     end
     
     def getCombatLevel
-      (1.7 * super + @myCultistCard.getGainedLevels).to_i
+      (1.7 * super + @myCultistCard.getGainedLevels*@@totalCultistPlayer).to_i
     end
     
     def shouldConvert
